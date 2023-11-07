@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config()
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5005
 
@@ -29,10 +29,23 @@ async function run() {
     // await client.connect();
 
     const booksCollection = client.db('booksDB').collection('books')
+    const borrowedCollection = client.db('booksDB').collection('borrowed')
 
     app.get('/books', async(req, res) =>{
         const cursor = booksCollection.find()
         const result = await cursor.toArray()
+        res.send(result)
+      })
+    app.get('/borrowed', async(req, res) =>{
+        const cursor = borrowedCollection.find()
+        const result = await cursor.toArray()
+        res.send(result)
+      })
+
+      app.get('/books/:id', async(req, res) =>{
+        const id = req.params.id
+        const query = {_id: new ObjectId(id)}
+        const result = await booksCollection.findOne(query)
         res.send(result)
       })
 
@@ -41,6 +54,14 @@ async function run() {
         console.log(newBooks)
         const result = await booksCollection.insertOne(newBooks)
         res.send(result)
+    })
+
+    app.post('/borrowed', async(req,res)=> {
+      const newBorrowedBook = req.body;
+      console.log(newBorrowedBook)
+      const result = await borrowedCollection.insertOne(newBorrowedBook)
+      res.send(result)
+      console.log(result)
     })
 
     
