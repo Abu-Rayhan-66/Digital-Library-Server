@@ -34,7 +34,7 @@ async function run() {
     app.get('/books', async(req, res) =>{
         const cursor = booksCollection.find()
         const result = await cursor.toArray()
-        res.send(result)
+        
       })
     app.get('/borrowed', async(req, res) =>{
         const cursor = borrowedCollection.find()
