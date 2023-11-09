@@ -83,20 +83,20 @@ async function run() {
       res.send(result)
     })
 
-    app.put('/books/:newNumber', async(req, res) =>{
-      const id = req.params.newNumber
-      const updateCount = req.body
-      const filter = {_id: new ObjectId(id)}
-      const options = {upsert: true}
-      const product = {
-        $set: {
+    // app.put('/books/:newNumber', async(req, res) =>{
+    //   const id = req.params.newNumber
+    //   const updateCount = req.body
+    //   const filter = {_id: new ObjectId(id)}
+    //   const options = {upsert: true}
+    //   const product = {
+    //     $set: {
+    //       quantity:updateCount.quantity
          
-         
-        }
-      }
-      const result = await booksCollection.updateOne(filter, product, options)
-      res.send(result)
-    })
+    //     }
+    //   }
+    //   const result = await booksCollection.updateOne(filter, product, options)
+    //   res.send(result)
+    // })
 
     app.delete('/borrowed/:id', async(req,res) => {
       const id = req.params.id;
